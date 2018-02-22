@@ -1,13 +1,13 @@
 # Linux-Server-Configuration
 
-This project is the last part of the `Fullstack Web Development Nanodegree`, it ensures that you have solid foundation in configuring and securing linux servers and have the experience to deploy applications using apache web server.
+This project is the last project of the `Fullstack Web Development Nanodegree`, it ensures that you have solid foundation in configuring and securing linux servers and have the experience to deploy applications using apache web server.
 
 
 ## About
 This project is a baseline installation of a Linux server and preparing it to host my web applications. securing my server from a number of attack vectors, installing and configuring a database server, and deploying one of my existing web applications onto it.
 
 # Server details
-IP address: `18.195.124.124`
+IP address: `18.197.43.32`
 
 SSH port: `2200`
 
@@ -163,8 +163,7 @@ sudo pip3 install flask-seasurf
 cd /var/www
 sudo mkdir item-project
 sudo chown -R grader:grader item-project
-cd project4
-sudo git clone https://github.com/hima-Megahed/Item-Catalog itemcatalogproject
+sudo git clone https://github.com/MohamedTaito/Item-Catalog.git
 ```
 
 ## Configure the Catalog app
@@ -177,20 +176,20 @@ sudo git clone https://github.com/hima-Megahed/Item-Catalog itemcatalogproject
 
 ## Configure the web application to connect to the PostgreSQL database instead of a SQLite database
  ```
- sudo nano /var/www/item-catalog/itemcatalogproject/controller.py
+ sudo nano /var/www/item-project/Item-Catalog/app.py
  -Change the engine setting in the file from 'sqlite:///itemCatalogs.db' to 'postgresql://catalog:catalog@localhost/catalog', and save
 ``` 
 
 ## Configure the Database to connect to the PostgreSQL database instead of a SQLite database
   ```
- sudo nano /var/www/item-catalog/itemcatalogproject/models.py
+ sudo nano /var/www/item-project/Item-Catalog/database_setup.py
  -Change the engine setting in the file from 'qlite:///sitemCatalogs.db' to 'postgresql://catalog:catalog@localhost/catalog', and save
  ```
  
  ## Configure Apache to serve the web application using WSGI
 - Create the web application WSGI file.
  ```
-sudo nano /var/www/item-catalog/app.wsgi
+sudo nano /var/www/item-project/app.wsgi
 ```
 - Add the following lines to the file, and save the file.
 ```
@@ -198,8 +197,8 @@ sudo nano /var/www/item-catalog/app.wsgi
 import sys 
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/item-catalog/itemcatalogproject/")
-from controller import app as application
+sys.path.insert(0,"/var/www/item-project/Item-Catalog/")
+from app import app as application
 application.secret_key = 'super_secret_key'
 
 ```
@@ -209,15 +208,15 @@ sudo nano /etc/apache2/sites-enabled/000-default.conf
 ```
 - Add the following line inside the `<VirtualHost *:80>` element, and save the file.
 ```
-        ServerName 18.195.124.124
-	ServerAdmin Ibrahim__Hasan@outlook.com
-	WSGIScriptAlias / /var/www/item-catalog/app.wsgi
-	<Directory /var/www/item-catalog/itemcatalogproject/>
+        ServerName 18.197.43.32
+	ServerAdmin mohamedaltaweel7@gmail.com
+	WSGIScriptAlias / /var/www/item-project/app.wsgi
+	<Directory /var/www/item-project/Item-Catalog/>
 		Order allow,deny
 		Allow from all
 	</Directory>
-	Alias /static /var/www/item-catalog/itemcatalogproject/static
-	<Directory /var/www/item-catalog/itemcatalogproject/static/>
+	Alias /static /var/www/item-project/Item-Catalog/static
+	<Directory /var/www/item-project/Item-Catalog/static/>
 		Order allow,deny
 		Allow from all
 	</Directory>
@@ -237,4 +236,4 @@ sudo apache2ctl restart
 - Stackoverflow and Udacity Forums.
 
 ## Attribution 
-- **[Basma Ashour](https://github.com/basmaashouur)** Thanks for a neat and straightforward README
+- **[Ibrahim Hassan](https://github.com/hima-Megahed/)** Thanks for a neat and straightforward README
